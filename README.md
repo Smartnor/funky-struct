@@ -60,10 +60,8 @@ The heads and tails can be found in the Okasaki or Clojure style:
 ;; -> #queue{:front (1 2 3 4) :rear nil}
 ```
 
-This implementation is faster than a list for retrieving data
-from the opposite end that it is added (aka, a queue).  However, the 
-vector has about the same performance even if the input is coerced
-from a list to a vector.
+This structure is faster than a list or a vector for retrieving data in a first-in
+first-out scenario (aka, a queue).
 
 ## TO-DO
 

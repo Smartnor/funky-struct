@@ -58,8 +58,11 @@
   the second argument should be nil or vector."
   [l v]
   {:pre [(or (and (nil? l) (nil? v))
-             (and (list? l) (not (empty? l)) (or (nil? v)
-                                                 (and (vector? v) (not (empty? v))))))]}
+             (and (list? l)
+                  (not (empty? l))
+                  (or (nil? v)
+                      (and (vector? v)
+                           (not (empty? v))))))]}
   (BatchedQueue. l v))
 
 (def EMPTY (queue nil nil))
