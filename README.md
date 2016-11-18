@@ -23,26 +23,26 @@ does not have to be reversed but is converted into a list.
 To create a BatchedQueue, it is best to start with the `EMPTY` queue:
 
 ```clojure
-(use 'funky-struct.queue)
+(use 'funky-struct.batched-queue)
 ;; -> nil
 (def q EMPTY)
 ;; -> #'user/q
 q
-;; -> #queue{:front nil :rear nil}
+;; -> #batched-queue{:front nil :rear nil}
 ```
 
 From there more data can be added, either by the `.snoc` method:
 
 ```clojure
 (-> EMPTY (.snoc :a) (.snoc :b) (.snoc :c))
-;; -> #queue{:front (:a) :rear [:b :c]}
+;; -> #batched-queue{:front (:a) :rear [:b :c]}
 ```
 
 or the `cons` method (used here by `into`):
 
 ```clojure
 (into EMPTY (range 5))
-;; -> #queue{:front (0) :rear [1 2 3 4]}
+;; -> #batched-queue{:front (0) :rear [1 2 3 4]}
 ```
 
 The heads and tails can be found in the Okasaki or Clojure style:
@@ -55,9 +55,9 @@ The heads and tails can be found in the Okasaki or Clojure style:
 (peek q)
 ;; -> 0
 (.tail q)
-;; -> #queue{:front (1 2 3 4) :rear nil}
+;; -> #batched-queue{:front (1 2 3 4) :rear nil}
 (pop q)
-;; -> #queue{:front (1 2 3 4) :rear nil}
+;; -> #batched-queue{:front (1 2 3 4) :rear nil}
 ```
 
 This structure is faster than a list or a vector for retrieving data in a first-in
