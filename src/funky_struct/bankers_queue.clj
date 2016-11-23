@@ -27,7 +27,25 @@
                         (= f (.f other))
                         (= r (.r other))))
   (peek [q] (.head q))
-  (pop [q] (.tail q)))
+  (pop [q] (.tail q))
+
+  clojure.lang.ILookup
+  (valAt [q k] (.valAt q k nil))
+  (valAt [q k not-found]
+    (condp = k
+      :f (.f q)
+      :r (.r q)
+      not-found))
+
+  Object
+  (toString [q] (pr-str q)))
+
+(defmethod print-method BankersQueue [o ^java.io.Writer w]
+  (.write w (str "#bankers-queue{:f "
+                 (pr-str (.f o))
+                 " :r "
+                 (pr-str (.r o))
+                 "}")))
 
 (defn bankers-queue
   "BankersQueue constructor"

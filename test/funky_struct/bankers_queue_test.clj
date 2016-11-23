@@ -81,3 +81,12 @@
 (expect (more-> '(3 4) .f
                 '(6 5) .r)
         (-> FIVER .pop .pop (.cons 5) (.cons 6) .pop))
+
+; ILookup abstraction
+(expect '(0 1 2) (:f FIVER))
+(expect '(4 3)  (:r FIVER))
+(expect nil (:goat FIVER))
+(expect "Maa!!!" (.valAt FIVER :goat "Maa!!!"))
+
+; Human-readable representation
+(expect "#bankers-queue{:f (0 1 2) :r (4 3)}" (str FIVER))
