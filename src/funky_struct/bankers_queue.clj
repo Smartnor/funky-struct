@@ -12,7 +12,22 @@
   (tail [_]
     (if (zero? lenf)
       EMPTY
-      (check (dec lenf) (rest f) lenr r))))
+      (check (dec lenf) (rest f) lenr r)))
+
+  clojure.lang.IPersistentList
+  (seq [_] (if (zero? lenf)
+             nil
+             (if (zero? lenr)
+               f
+               (f/++ f (f/reverse r)))))
+  (count [_] (+ lenf lenr))
+  (cons [q x] (.snoc q x))
+  (empty [_] EMPTY)
+  (equiv [_ other] (and (instance? BankersQueue other)
+                        (= f (.f other))
+                        (= r (.r other))))
+  (peek [q] (.head q))
+  (pop [q] (.tail q)))
 
 (defn bankers-queue
   "BankersQueue constructor"
