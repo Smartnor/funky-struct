@@ -23,7 +23,7 @@ does not have to be reversed but is converted into a list.
 To create a BatchedQueue, it is best to start with the `EMPTY` queue:
 
 ```clojure
-(use 'funky-struct.batched-queue)
+(use 'funky-struct.queue.batched-queue)
 ;; -> nil
 (def q EMPTY)
 ;; -> #'user/q
