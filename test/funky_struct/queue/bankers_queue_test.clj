@@ -1,4 +1,4 @@
-(ns funky-struct.bankers-queue-test 
+(ns funky-struct.queue.bankers-queue-test 
   (:use expectations
         funky-struct.queue.bankers-queue))
 

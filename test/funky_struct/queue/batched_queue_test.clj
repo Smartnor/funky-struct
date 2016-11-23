@@ -1,4 +1,4 @@
-(ns funky-struct.batched-queue-test
+(ns funky-struct.queue.batched-queue-test
   (:use expectations
         funky-struct.queue.batched-queue))
 
