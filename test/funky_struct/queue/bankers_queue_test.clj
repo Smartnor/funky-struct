@@ -1,6 +1,6 @@
 (ns funky-struct.bankers-queue-test 
   (:use expectations
-        funky-struct.bankers-queue))
+        funky-struct.queue.bankers-queue))
 
 ; Check constuctor
 (expect (more-> 3 .lenf

@@ -1,6 +1,6 @@
 (ns funky-struct.batched-queue-test
   (:use expectations
-        funky-struct.batched-queue))
+        funky-struct.queue.batched-queue))
 
 ; Check constuctor
 (expect (more-> '(:a) .front

@@ -1,4 +1,4 @@
-(ns funky-struct.batched-queue
+(ns funky-struct.queue.batched-queue
   (:require [funky-struct.core :as f]))
 
 (declare EMPTY)

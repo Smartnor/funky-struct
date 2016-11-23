@@ -1,4 +1,4 @@
-(ns funky-struct.bankers-queue
+(ns funky-struct.queue.bankers-queue
   (:require [funky-struct.core :as f]))
 
 (declare EMPTY)
