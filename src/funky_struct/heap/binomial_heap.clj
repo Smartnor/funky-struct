@@ -32,12 +32,12 @@
                            x))) (throw (Exception. (str "The item you are inserting "
                                                         "is not an instance of Comparable")))
       (and (not (empty? ts))
-           (not (instance? (class (.x (first ts)))
+           (not (instance? (class (:x (first ts)))
                            x))) (throw (Exception. (str "The item you are inserting "
                                                         "is an instance of "
                                                         (class x)
                                                         " rather than "
-                                                        (class (.x (first ts)))
+                                                        (class (:x (first ts)))
                                                         " like the other items"))) 
       :else (BinomialHeap. (ins-tree (Node. 0 x '()) ts))))
   (merge [h1 h2]
@@ -46,30 +46,46 @@
                                                                 "have class BinomialHeap "
                                                                 "rather than " 
                                                                 (class h2))))
-      (empty? (.ts h2)) h1
-      (empty? (.ts h1)) h2
-      :else (let [ts1 (.ts h1)
-                  ts2 (.ts h2)
+      (empty? (:ts h2)) h1
+      (empty? (:ts h1)) h2
+      :else (let [ts1 (:ts h1)
+                  ts2 (:ts h2)
                   t1 (first ts1)
                   ts1' (rest ts1)
                   t2 (first ts2)
                   ts2' (rest ts2)]
               (cond
                 (< (rank t1) (rank t2)) (BinomialHeap. (cons t1
-                                                             (.ts (.merge (BinomialHeap. ts1')
+                                                             (:ts (.merge (BinomialHeap. ts1')
                                                                           (BinomialHeap. ts2)))))
                 (< (rank t2) (rank t1)) (BinomialHeap. (cons t2
-                                                             (.ts (.merge (BinomialHeap. ts1)
+                                                             (:ts (.merge (BinomialHeap. ts1)
                                                                           (BinomialHeap. ts2')))))
                 :else (BinomialHeap. (ins-tree (link t1 t2)
-                                               (.ts (.merge (BinomialHeap. ts1')
+                                               (:ts (.merge (BinomialHeap. ts1')
                                                             (BinomialHeap. ts2')))))))))
   (find-min [_] (root (first (remove-min-tree ts))))
   (delete-min [_]
     (let [[t1 ts2] (remove-min-tree ts)
-          ts1 (.c t1)]
+          ts1 (:c t1)]
       (.merge (BinomialHeap. (reverse ts1))
               (BinomialHeap. ts2))))
+
+  clojure.lang.IPersistentCollection
+  (seq [_] (map :x
+                (mapcat (fn [t]
+                          (tree-seq #(not (empty? (:c %)))
+                                    #(:c %)
+                                    t))
+                        ts)))
+  (count [_] (reduce #(+ %1
+                         (Math/pow 2 (.rank %2)))
+                     0
+                     ts))
+  (cons [h x] (.insert h x))
+  (empty [_] EMPTY)
+  (equiv [h1 h2] (and (instance? BinomialHeap h2)
+                      (= (seq h1) (seq h2))))
 
   clojure.lang.ILookup
   (valAt [h k] (.valAt h k nil))
@@ -83,13 +99,13 @@
 
 (def EMPTY (BinomialHeap. '()))
 
-(defn- rank [t] (.r t))
-(defn- root [t] (.x t))
+(defn- rank [t] (:r t))
+(defn- root [t] (:x t))
 (defn- link
   [t1 t2]
-  (if (<= (.x t1) (.x t2))
-    (Node. (inc (.r t1)) (.x t1) (cons t2 (.c t1)))
-    (Node. (inc (.r t1)) (.x t2) (cons t1 (.c t2)))))
+  (if (<= (:x t1) (:x t2))
+    (Node. (inc (:r t1)) (:x t1) (cons t2 (:c t1)))
+    (Node. (inc (:r t1)) (:x t2) (cons t1 (:c t2)))))
 (defn- ins-tree
   [t ts]
   (if (empty? ts)
@@ -109,14 +125,14 @@
 
 (defmethod print-method Node [o ^java.io.Writer w]
   (.write w (str "#node{:r "
-                 (pr-str (.r o))
+                 (pr-str (:r o))
                  " :x "
-                 (pr-str (.x o))
+                 (pr-str (:x o))
                  " :c "
-                 (pr-str (.c o))
+                 (pr-str (:c o))
                  "}")))
 
 (defmethod print-method BinomialHeap [o ^java.io.Writer w]
   (.write w (str "#binomial-heap{:ts "
-                 (pr-str (.ts o))
+                 (pr-str (:ts o))
                  "}")))

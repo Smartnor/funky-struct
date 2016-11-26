@@ -35,3 +35,30 @@
                              .delete-min
                              .delete-min
                              .delete-min)))
+
+; Make sure that it participates in the IPersistentList abstraction
+; Sequence
+(expect '(12 3 5 7 144) (seq FIVER))
+
+; Count
+(expect 5 (count FIVER))
+
+; Cons (demonstrated by using into)
+(expect '(8 9 0 4 6 7 5 2 3 1)
+        (seq (into EMPTY (range 10))))
+
+; Empty
+(expect EMPTY (-> (into EMPTY (range 5)) .empty))
+
+; Equivalence
+(expect true (= FIVER
+                (-> EMPTY
+                    (.insert 5)
+                    (.insert 7)
+                    (.insert 144)
+                    (.insert 3)
+                    (.insert 12))))
+(expect false (= FIVER
+                 :Goat))
+(expect false (= FIVER
+                 EMPTY))
