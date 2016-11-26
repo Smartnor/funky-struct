@@ -1,6 +1,6 @@
 (ns funky-struct.core
   (:refer-clojure :rename {cons core-cons}
-                  :exclude [reverse]))
+                  :exclude [merge reverse]))
 
 (declare cons)
 
@@ -10,6 +10,12 @@
   (snoc [q x])
   (head [q])
   (tail [q]))
+(defprotocol Heap
+  (is-empty? [h])
+  (insert [x h])
+  (merge [h1 h2])
+  (find-min [h])
+  (delete-min [h]))
 
 ; Private functions
 (defn- reverse'
